@@ -1,11 +1,36 @@
+// Function to convert Brazilian Real (BRL) to US Dollar (USD) using an API
 function converter() {
-    // Obter valores dos campos
-    const valorReal = parseFloat(document.getElementById('valorReal').value);
-    const cotacaoDolar = 5.07; // Valor da cotação do dólar (substitua por valor atualizado)
-
-    // Calcular valor em dólar
-    const valorDolar = valorReal * cotacaoDolar;
-
-    // Atualizar campo de valor em dólar
-    document.getElementById('valorDolar').value = valorDolar.toFixed(2);
-}
+    // Get the value from the input field with ID 'valorReal'
+    const valorRealInput = document.getElementById('valorReal');
+    const valorReal = parseFloat(valorRealInput.value);
+  
+    // Check if the input is a valid number
+    if (isNaN(valorReal)) {
+      alert('Valor inválido. Insira um número.');
+      return;
+    }
+  
+    // Make an API call to retrieve the conversion rate
+    fetch('https://api.exchangeratesapi.io/latest?base=BRL')
+      .then(response => response.json())
+      .then(data => {
+        if (response.status !== 200) {
+          console.error(`Error retrieving exchange rate: ${response.status}`);
+          return;
+        }
+  
+        // Get the USD rate from the API response
+        const cotacaoDolar = data.rates.USD;
+  
+        // Calculate the value in USD
+        const valorDolar = valorReal * cotacaoDolar;
+  
+        // Format the value in USD with two decimal places
+        const valorDolarFormatado = valorDolar.toLocaleString('pt-BR', { style: 'currency', currency: 'USD' });
+  
+        // Update the value in the output field with ID 'valorDolar'
+        const valorDolarOutput = document.getElementById('valorDolar');
+        valorDolarOutput.value = valorDolarFormatado;
+      });
+  }
+  
