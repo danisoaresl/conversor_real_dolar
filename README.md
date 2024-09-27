@@ -1,1 +1,4 @@
-Projeto final imersão IA Alura - Google
+Projeto final imersão 
+#IA 
+#Alura_Google
+#Gemini
